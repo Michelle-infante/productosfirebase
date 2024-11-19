@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9aa2, #ffb7b2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #ff6f91;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input {
+            width: 95%;
+            padding: 15px 16px;
+            border: 2px solid #ff6f91;
+            border-radius: 30px;
+            font-size: 1em;
+            outline: none;
+            transition: 0.3s;
+            background-color: #ffe6ec;
+        }
+        .form-group input:focus {
+            border-color: #ff3e70;
+        }
+        button {
+            background: #ff6f91;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        button:hover {
+            background: #ff3e70;
+        }
+        p {
+            margin-top: 20px;
+            color: #ff3e70;
+        }
+        .login-container a {
+            color: #ff6f91;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Bienvenido</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="email" id="email" class = "form-control" placeholder="Correo Electrónico" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" class = "form-control" placeholder="Contraseña" required>
+            </div>
+            <button type="submit" onclick="login">Iniciar Sesión</button>
+        </form>
+        <p>¿Olvidaste tu contraseña? <a href="#">Recupérala aquí</a></p>
+        <p id="message"></p>
+    </div>
+    <script>
+        
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        if (response.ok) {
+          window.location.href = "/db.html";
+        } else {
+          const data = await response.json();
+          alert("Error en inicio de sesión: " + data.message);
+        }
+      } catch (error) {
+        console.error("Error en inicio de sesión:", error);
+      }
+    }
+
+    </script>
+</body>
+
+</html>
